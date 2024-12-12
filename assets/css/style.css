@@ -6255,16 +6255,7 @@ img.left {
   }
 }
 
-.logo {
-  font-family: monospace;
-  font-size: 32px;
-  font-weight: bold;
-  color: white;
-  background-color: black;
-  padding: 10px 20px;
-  border-radius: 4px;
-  display: inline-block;
-}
+
 
 .dot {
   width: 10px;
@@ -6284,5 +6275,14 @@ img.left {
   font-weight: 700;
   /* Bold */
 }
+.logo {
+  font-family: 'Arial', sans-serif;
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+}
 
+.logo span {
+  color: #00FF88; /* Green accent color */
+}
 /* ====================== [ End Responsive ] ====================== */
