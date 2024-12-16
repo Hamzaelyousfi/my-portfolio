@@ -81,7 +81,7 @@
             <div class="row">
                 <div class="col-lg-3 col-6 order1">
                     <div class="logo">
-                        <a href="./index.html">Hamza <span>Dev</span></a> 
+                        <a href="./index.html">Hamza <span>Dev</span></a>
                     </div>
                 </div>
                 <div class="col-lg-6 order3">
@@ -114,7 +114,8 @@
                     <div class="bord d-flex justify-content-end">
                         <ul class="social d-flex rest">
                             <li>
-                                <a href="https://www.linkedin.com/in/hamza-el-yousfi-web-dev/"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://www.linkedin.com/in/hamza-el-yousfi-web-dev/"><i
+                                        class="fab fa-linkedin-in"></i></a>
                             </li>
                             <li>
                                 <a href="https://github.com/Hamzaelyousfi"><i class="fab fa-github"></i></a>
@@ -204,7 +205,7 @@
                     </div>
                     <div class="col-lg-7 valign">
                         <div class="full-width">
-                            <form id="contact-form" method="post">
+                            <form id="contact-form">
 
                                 <div class="messages"></div>
 
@@ -273,7 +274,29 @@
 
 
 
+    <script>
+        $(document).ready(function () {
+            $('#contact-form').on('submit', function (e) {
+                e.preventDefault();
+                var name = $('#form_name').val();
+                var email = $('#form_email').val();
+                var message = $('#form_message').val();
 
+                $.ajax({
+                    url: 'https://script.google.com/macros/s/AKfycbwUgMuZt9o8vUBsXDjGrUqsupf0rgkkIBFvAnFqYV1fEZu-MVesSMCIY8LnnzcvRxC5/exec',
+                    type: 'POST',
+                    data: JSON.stringify({ name, email, message }),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        alert('Message sent successfully!');
+                    },
+                    error: function () {
+                        alert('Failed to send the message. Please try again.');
+                    },
+                });
+            });
+        });
+    </script>
 
     <!-- jQuery -->
     <script src="assets/js/jquery-3.6.0.min.js"></script>
