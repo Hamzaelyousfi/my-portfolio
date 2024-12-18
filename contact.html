@@ -315,30 +315,45 @@
 
             document.getElementById('contact-form').addEventListener('submit', function (e) {
                 e.preventDefault();
+
+                // Show loading state if you want
+                const submitButton = this.querySelector('button[type="submit"]');
+                const originalButtonText = submitButton.innerHTML;
+                submitButton.innerHTML = 'Sending...';
+
                 const formData = {
                     name: document.getElementById('form_name').value,
                     email: document.getElementById('form_email').value,
                     message: document.getElementById('form_message').value
                 };
 
-                fetch('https://script.google.com/macros/s/AKfycbzJenKi-ey_Z-u60cOKu9Uf1V_nBlwvIq8SHT13XCrWas0sBxWE4ub5ugzjh9bU135n4Q/exec', {
-                    method: 'POST',
-                    body: JSON.stringify(formData),
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            showNotification();
-                            e.target.reset(); // Reset form
-                        } else {
-                            throw new Error('Network response was not ok');
-                        }
-                    })
-                    .catch(error => {
+                // Create a form data object to send
+                const form = new FormData();
+                form.append('data', JSON.stringify(formData));
+
+                // Send as JSONP using a script tag
+                const script = document.createElement('script');
+                const callback = 'callback_' + Math.random().toString(36).substr(2, 9);
+
+                window[callback] = function (response) {
+                    // Remove the script tag
+                    script.remove();
+                    delete window[callback];
+
+                    // Reset button state
+                    submitButton.innerHTML = originalButtonText;
+
+                    if (response.result === 'success') {
+                        showNotification();
+                        e.target.reset(); // Reset form
+                    } else {
                         alert('Failed to send the message. Please try again.');
-                    });
+                    }
+                };
+
+                // Add the callback to your Apps Script URL
+                script.src = 'YOUR_APPS_SCRIPT_URL_HERE?callback=' + callback + '&data=' + encodeURIComponent(JSON.stringify(formData));
+                document.body.appendChild(script);
             });
         });
     </script>
