@@ -293,18 +293,16 @@
     <script src="assets/js/scripts.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const notification = document.getElementById('notification');
-            
+
             function showNotification() {
                 notification.classList.add('show', 'animate-in');
-                
-                // Auto hide after 5 seconds
                 setTimeout(() => {
                     hideNotification();
                 }, 5000);
             }
-            
+
             function hideNotification() {
                 notification.classList.remove('show');
                 notification.classList.add('animate-out');
@@ -312,40 +310,38 @@
                     notification.classList.remove('animate-in', 'animate-out');
                 }, 500);
             }
-            
-            // Close button handler
+
             document.querySelector('.notification-close').addEventListener('click', hideNotification);
-            
-            // Form submission handler
-            document.getElementById('contact-form').addEventListener('submit', function(e) {
+
+            document.getElementById('contact-form').addEventListener('submit', function (e) {
                 e.preventDefault();
                 const formData = {
                     name: document.getElementById('form_name').value,
                     email: document.getElementById('form_email').value,
                     message: document.getElementById('form_message').value
                 };
-        
-                fetch('https://script.google.com/macros/s/AKfycby8HgmFTqZ811H5_uKPYfETZSmdU9cLdPWNi73R3GTTUsPK9uIhQmo2JiUL-QiAfy4WjQ/exec', {
+
+                fetch('https://script.google.com/macros/s/AKfycbzJenKi-ey_Z-u60cOKu9Uf1V_nBlwvIq8SHT13XCrWas0sBxWE4ub5ugzjh9bU135n4Q/exec', {
                     method: 'POST',
                     body: JSON.stringify(formData),
                     headers: {
                         'Content-Type': 'application/json',
                     }
                 })
-                .then(response => {
-                    if (response.ok) {
-                        showNotification();
-                        e.target.reset(); // Reset form
-                    } else {
-                        throw new Error('Network response was not ok');
-                    }
-                })
-                .catch(error => {
-                    alert('Failed to send the message. Please try again.');
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            showNotification();
+                            e.target.reset(); // Reset form
+                        } else {
+                            throw new Error('Network response was not ok');
+                        }
+                    })
+                    .catch(error => {
+                        alert('Failed to send the message. Please try again.');
+                    });
             });
         });
-        </script>
+    </script>
 
 </body>
 
