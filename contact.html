@@ -279,8 +279,21 @@
         </div>
     </footer>
     <!-- ==================== End Footer ==================== -->
+
+    <!-- jQuery -->
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/jquery-migrate-3.4.0.min.js"></script>
+
+    <!-- plugins -->
+    <script src="assets/js/plugins.js"></script>
+
+    <script src="https://uithemez.com/i/andrew/assets/js/ScrollTrigger.min.js"></script>
+
+    <!-- custom scripts -->
+    <script src="assets/js/scripts.js"></script>
+
     <script>
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const notification = document.getElementById('notification');
             
             function showNotification() {
@@ -303,41 +316,36 @@
             // Close button handler
             document.querySelector('.notification-close').addEventListener('click', hideNotification);
             
-            $('#contact-form').on('submit', function(e) {
+            // Form submission handler
+            document.getElementById('contact-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-                var name = $('#form_name').val();
-                var email = $('#form_email').val();
-                var message = $('#form_message').val();
+                const formData = {
+                    name: document.getElementById('form_name').value,
+                    email: document.getElementById('form_email').value,
+                    message: document.getElementById('form_message').value
+                };
         
-                $.ajax({
-                    url: 'https://script.google.com/macros/s/AKfycby8HgmFTqZ811H5_uKPYfETZSmdU9cLdPWNi73R3GTTUsPK9uIhQmo2JiUL-QiAfy4WjQ/exec',
-                    type: 'POST',
-                    data: JSON.stringify({ name, email, message }),
-                    contentType: 'application/json',
-                    success: function(response) {
-                        showNotification();
-                        $('#contact-form')[0].reset(); // Reset form
-                    },
-                    error: function() {
-                        // You could create a separate error notification here
-                        alert('Failed to send the message. Please try again.');
+                fetch('https://script.google.com/macros/s/AKfycby8HgmFTqZ811H5_uKPYfETZSmdU9cLdPWNi73R3GTTUsPK9uIhQmo2JiUL-QiAfy4WjQ/exec', {
+                    method: 'POST',
+                    body: JSON.stringify(formData),
+                    headers: {
+                        'Content-Type': 'application/json',
                     }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        showNotification();
+                        e.target.reset(); // Reset form
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
+                })
+                .catch(error => {
+                    alert('Failed to send the message. Please try again.');
                 });
             });
         });
         </script>
-
-    <!-- jQuery -->
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-3.4.0.min.js"></script>
-
-    <!-- plugins -->
-    <script src="assets/js/plugins.js"></script>
-
-    <script src="https://uithemez.com/i/andrew/assets/js/ScrollTrigger.min.js"></script>
-
-    <!-- custom scripts -->
-    <script src="assets/js/scripts.js"></script>
 
 </body>
 
