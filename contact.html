@@ -352,7 +352,7 @@
                 };
 
                 // Add the callback to your Apps Script URL
-                script.src = 'YOUR_APPS_SCRIPT_URL_HERE?callback=' + callback + '&data=' + encodeURIComponent(JSON.stringify(formData));
+                script.src = 'https://script.google.com/macros/s/AKfycbzJenKi-ey_Z-u60cOKu9Uf1V_nBlwvIq8SHT13XCrWas0sBxWE4ub5ugzjh9bU135n4Q/exec?callback=' + callback + '&data=' + encodeURIComponent(JSON.stringify(formData));
                 document.body.appendChild(script);
             });
         });
