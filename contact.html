@@ -246,7 +246,20 @@
         </section>
 
         <!-- ==================== End Contact ==================== -->
-
+        <div id="notification" class="notification">
+            <div class="notification-content">
+                <div class="notification-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="notification-text">
+                    <h4>Message Sent Successfully!</h4>
+                    <p>Thank you for reaching out. I will respond to your message as soon as possible.</p>
+                </div>
+                <button class="notification-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
 
     </main>
 
@@ -266,37 +279,53 @@
         </div>
     </footer>
     <!-- ==================== End Footer ==================== -->
-
-
-
-
-
-
-
-
     <script>
-        $(document).ready(function () {
-            $('#contact-form').on('submit', function (e) {
+        $(document).ready(function() {
+            const notification = document.getElementById('notification');
+            
+            function showNotification() {
+                notification.classList.add('show', 'animate-in');
+                
+                // Auto hide after 5 seconds
+                setTimeout(() => {
+                    hideNotification();
+                }, 5000);
+            }
+            
+            function hideNotification() {
+                notification.classList.remove('show');
+                notification.classList.add('animate-out');
+                setTimeout(() => {
+                    notification.classList.remove('animate-in', 'animate-out');
+                }, 500);
+            }
+            
+            // Close button handler
+            document.querySelector('.notification-close').addEventListener('click', hideNotification);
+            
+            $('#contact-form').on('submit', function(e) {
                 e.preventDefault();
                 var name = $('#form_name').val();
                 var email = $('#form_email').val();
                 var message = $('#form_message').val();
-
+        
                 $.ajax({
-                    url: 'https://script.google.com/macros/s/AKfycbwUgMuZt9o8vUBsXDjGrUqsupf0rgkkIBFvAnFqYV1fEZu-MVesSMCIY8LnnzcvRxC5/exec',
+                    url: 'https://script.google.com/macros/s/AKfycby8HgmFTqZ811H5_uKPYfETZSmdU9cLdPWNi73R3GTTUsPK9uIhQmo2JiUL-QiAfy4WjQ/exec',
                     type: 'POST',
                     data: JSON.stringify({ name, email, message }),
                     contentType: 'application/json',
-                    success: function (response) {
-                        alert('Message sent successfully!');
+                    success: function(response) {
+                        showNotification();
+                        $('#contact-form')[0].reset(); // Reset form
                     },
-                    error: function () {
+                    error: function() {
+                        // You could create a separate error notification here
                         alert('Failed to send the message. Please try again.');
-                    },
+                    }
                 });
             });
         });
-    </script>
+        </script>
 
     <!-- jQuery -->
     <script src="assets/js/jquery-3.6.0.min.js"></script>
