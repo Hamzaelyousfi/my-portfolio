@@ -364,12 +364,12 @@
     <script>
         const form = document.getElementById('contactForm');
         const confirmation = document.getElementById('confirmationMessage');
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxs1WI-I3CeDzRQ2Dks-5g13hO_fixddmXNa53Tm_6K5tt_RqQcEdB3VSXIq_Wyo23X/exec'; // Replace with your URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxs1WI-I3CeDzRQ2Dks-5g13hO_fixddmXNa53Tm_6K5tt_RqQcEdB3VSXIq_Wyo23X/exec';
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const formData = {
+            const payload = {
                 name: form.name.value,
                 email: form.email.value,
                 message: form.message.value
@@ -378,19 +378,22 @@
             try {
                 const response = await fetch(scriptURL, {
                     method: 'POST',
-                    body: JSON.stringify(formData),
+                    body: JSON.stringify(payload),
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    // Add this mode parameter
+                    mode: 'no-cors'
                 });
 
-                if (response.ok) {
-                    form.reset();
-                    confirmation.style.display = 'block';
-                    setTimeout(() => {
-                        confirmation.style.display = 'none';
-                    }, 3000);
-                }
+                // Since we're using 'no-cors', we can't read the response body
+                // But we can assume success if the request completes
+                form.reset();
+                confirmation.style.display = 'block';
+                setTimeout(() => {
+                    confirmation.style.display = 'none';
+                }, 3000);
+
             } catch (error) {
                 alert('Error sending message! Please try again.');
             }
