@@ -205,7 +205,7 @@
                     </div>
                     <div class="col-lg-7 valign">
                         <div class="full-width">
-                            <form id="contact-form">
+                            <form id="contactForm">
 
                                 <div class="messages"></div>
 
@@ -260,6 +260,9 @@
                 </button>
             </div>
         </div>
+        <div id="confirmationMessage" style="display: none;">
+            Message sent successfully!
+        </div>
 
     </main>
 
@@ -291,7 +294,7 @@
 
     <!-- custom scripts -->
     <script src="assets/js/scripts.js"></script>
-
+    <!-- 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const notification = document.getElementById('notification');
@@ -342,7 +345,7 @@
 
                     // Reset button state
                     submitButton.innerHTML = originalButtonText;
-
+                    console.log(response)
                     if (response.result === 'success') {
                         showNotification();
                         e.target.reset(); // Reset form
@@ -352,9 +355,45 @@
                 };
 
                 // Add the callback to your Apps Script URL
-                script.src = 'https://script.google.com/macros/s/AKfycbzJenKi-ey_Z-u60cOKu9Uf1V_nBlwvIq8SHT13XCrWas0sBxWE4ub5ugzjh9bU135n4Q/exec?callback=' + callback + '&data=' + encodeURIComponent(JSON.stringify(formData));
+                script.src = 'https://script.google.com/macros/s/AKfycbzA7ZrNOc7toLS6xnJ-GbYLSNYRKcf3pwKQhLgqnirsjUumUMOkq7VumSCoONbGNVMJ5Q/exec?callback=' + callback + '&data=' + encodeURIComponent(JSON.stringify(formData));
                 document.body.appendChild(script);
             });
+        });
+    </script> -->
+
+    <script>
+        const form = document.getElementById('contactForm');
+        const confirmation = document.getElementById('confirmationMessage');
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxs1WI-I3CeDzRQ2Dks-5g13hO_fixddmXNa53Tm_6K5tt_RqQcEdB3VSXIq_Wyo23X/exec'; // Replace with your URL
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                name: form.name.value,
+                email: form.email.value,
+                message: form.message.value
+            };
+
+            try {
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    body: JSON.stringify(formData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    form.reset();
+                    confirmation.style.display = 'block';
+                    setTimeout(() => {
+                        confirmation.style.display = 'none';
+                    }, 3000);
+                }
+            } catch (error) {
+                alert('Error sending message! Please try again.');
+            }
         });
     </script>
 
